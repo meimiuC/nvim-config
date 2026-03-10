@@ -130,6 +130,7 @@ return {
 		wk.setup(opts)
 
 		wk.add({
+			{ "<leader>a", group = "AI 助手 (Copilot)" },
 			{ "<leader>b", group = "标签页 (Buffer)" },
 			{ "<leader>c", group = "代码" },
 
