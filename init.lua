@@ -16,7 +16,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 -- 2. 加载快捷键 (按键映射)
--- require("core.keymaps")
+require("core.keymaps")
 
 -- 3. 加载插件管理器 (Lazy.nvim)
 require("core.lazy")
