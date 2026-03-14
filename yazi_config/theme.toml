@@ -1,0 +1,10 @@
+# ~/.config/yazi/theme.toml
+
+[flavor]
+dark = "flexoki-dark"
+# 如果你也想在浅色模式使用它（或者该方案支持浅色）
+# light = "flexoki-dark"
+# dark = "catppuccin-mocha"
+# dark = "tokyo-night"
+# use = "tokyo-night"
+# dark = "kanagawa"
