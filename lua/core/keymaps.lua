@@ -48,3 +48,6 @@ map("n", "<leader>w", "<cmd>w<CR>", { desc = "保存当前文件" })
 -- 在光标下方插入空行，但不进入插入模式 (非常好用的排版技巧)
 map("n", "<leader>o", "o<Esc>", { desc = "在下方插入空行" })
 map("n", "<leader>O", "O<Esc>", { desc = "在上方插入空行" })
+
+-- -- 在终端模式 (Terminal mode, 简写为 't') 下，连按两次 Esc 回到 Normal 模式
+-- vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "退出终端编辑模式" })

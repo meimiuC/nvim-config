@@ -3,7 +3,8 @@
 return {
 	"zbirenbaum/copilot.lua",
 	-- 只有在进入插入模式（开始打字）时才加载，极致优化启动速度
-	event = "InsertEnter",
+	-- event = "InsertEnter",
+	event = { "BufReadPre", "BufNewFile" },
 	config = function()
 		require("copilot").setup({
 			-- 核心功能：内联建议 (Ghost Text)
@@ -11,7 +12,7 @@ return {
 				enabled = true,
 				auto_trigger = true, -- 自动弹出灰色代码建议
 				hide_during_completion = true, -- 当 blink.cmp 补全菜单打开时，暂时隐藏 copilot，避免视觉冲突
-				debounce = 75, -- 延迟 75ms 请求，节省资源
+				debounce = 15, -- 延迟 75ms 请求，节省资源
 				keymap = {
 					-- <M-l> 代表 Alt + l (字母 L 的小写)。因为 l 在 Vim 里是向右移动，有“接受并向右推进”的直觉
 					accept = "<M-l>",
