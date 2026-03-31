@@ -34,16 +34,12 @@ return {
 					return
 				end
 
-				vim.cmd("silent write")
+				-- 只在文件有修改时保存
+				vim.cmd("silent update")
 
-				local overseer = require("overseer")
-				overseer.run_task({
-					tags = { overseer.TAG.BUILD },
-					search_params = {
-						filetype = "fortran",
-						dir = vim.fn.expand("%:p:h"),
-					},
-					first = true,
+				-- 直接按模板名运行，比 tags/search_params 更稳定
+				require("overseer").run_template({
+					name = "Fortran: build current file",
 				})
 			end,
 			desc = "构建当前 Fortran 文件",
@@ -53,12 +49,14 @@ return {
 	opts = {
 		task_list = {
 			direction = "bottom",
-			min_height = 8,
-			max_height = { 18, 0.25 },
-			default_detail = 1,
+			min_height = 10,
+			max_height = { 20, 0.30 },
+			default_detail = 2,
 		},
 		output = {
-			preserve_output = false,
+			-- 保留最近一次输出，便于回看
+			preserve_output = true,
+			-- 构建输出不走终端，而是走 quickfix / diagnostics
 			use_terminal = false,
 		},
 	},
@@ -67,10 +65,10 @@ return {
 		local overseer = require("overseer")
 		overseer.setup(opts)
 
+		-- 预热当前目录的任务缓存，减少第一次运行模板时的等待
 		vim.api.nvim_create_autocmd({ "VimEnter", "DirChanged" }, {
 			callback = function()
-				local cwd = (vim.v.cwd ~= "" and vim.v.cwd) or vim.fn.getcwd()
-				overseer.preload_task_cache({ dir = cwd })
+				overseer.preload_task_cache({ dir = vim.fn.getcwd() })
 			end,
 		})
 	end,

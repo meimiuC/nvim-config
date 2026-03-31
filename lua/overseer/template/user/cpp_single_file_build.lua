@@ -1,12 +1,13 @@
 local overseer = require("overseer")
 
 return {
-	name = "Fortran: build current file",
-	desc = "使用 gfortran 构建当前 .f90，并将输出送入 quickfix / diagnostics",
+	name = "C++: build current file",
+	desc = "使用 g++ 构建当前 .cpp，并将输出送入 quickfix / diagnostics",
 	tags = { overseer.TAG.BUILD },
 
+	-- Only show this template for C++ files
 	condition = {
-		filetype = { "fortran" },
+		filetype = { "cpp" },
 	},
 
 	builder = function()
@@ -16,19 +17,21 @@ return {
 
 		return {
 			cmd = {
-				"gfortran",
-				"-std=f2018",
+				"g++",
+				"-std=c++20",
 				"-Wall",
 				"-Wextra",
-				"-Wimplicit",
-				"-fcheck=all",
+				"-g",
 				file,
 				"-o",
 				exe,
 			},
+			-- Work in current directory of the src file
 			cwd = cwd,
 			components = {
+				-- Replace the older file when compiling a new one
 				{ "unique", replace = true },
+				-- Send info to quickfix and diagnostics
 				{
 					"on_output_quickfix",
 					open = false,
@@ -38,7 +41,6 @@ return {
 					close = true,
 					open_height = 8,
 					set_diagnostics = true,
-					tail = false,
 				},
 				"default",
 			},
