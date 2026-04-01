@@ -16,8 +16,19 @@ return {
 		{
 			"<leader>tr",
 			function()
-				if vim.bo.filetype ~= "fortran" then
-					vim.notify("当前缓冲区不是 Fortran 文件", vim.log.levels.WARN)
+				local ft = vim.bo.filetype
+
+				-- 当前支持“单文件编译 -> 同名可执行文件”的语言
+				local runnable_single_filetypes = {
+					fortran = "Fortran",
+					cpp = "C++",
+				}
+
+				if not runnable_single_filetypes[ft] then
+					vim.notify(
+						string.format("当前 filetype=%s 不支持通用单文件运行", ft ~= "" and ft or "(empty)"),
+						vim.log.levels.WARN
+					)
 					return
 				end
 
@@ -32,13 +43,16 @@ return {
 				end
 
 				if vim.fn.filereadable(exe_path) == 0 then
-					vim.notify("未找到可执行文件，请先构建当前 Fortran 文件", vim.log.levels.WARN)
+					vim.notify(
+						"未找到当前文件对应的可执行文件，请先构建当前文件",
+						vim.log.levels.WARN
+					)
 					return
 				end
 
 				-- 如果源文件更新了，但可执行文件还是旧的，先提醒重新构建
 				if vim.fn.getftime(file) > vim.fn.getftime(exe_path) then
-					vim.notify("源文件比可执行文件新，请先重新构建", vim.log.levels.WARN)
+					vim.notify("源文件比可执行文件新，请先重新构建当前文件", vim.log.levels.WARN)
 					return
 				end
 
@@ -50,7 +64,7 @@ return {
 					)
 				)
 			end,
-			desc = "运行当前 Fortran 可执行文件",
+			desc = "运行当前文件对应的可执行文件",
 		},
 	},
 

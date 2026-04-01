@@ -23,26 +23,46 @@ return {
 		{
 			"<leader>ob",
 			function()
-				if vim.bo.filetype ~= "fortran" then
-					vim.notify("当前缓冲区不是 Fortran 文件", vim.log.levels.WARN)
+				local ft = vim.bo.filetype
+				local name = vim.api.nvim_buf_get_name(0)
+
+				if name == "" then
+					vim.notify("请先保存当前文件，再执行构建", vim.log.levels.WARN)
 					return
 				end
 
-				local name = vim.api.nvim_buf_get_name(0)
-				if name == "" then
-					vim.notify("请先保存当前文件，再执行构建", vim.log.levels.WARN)
+				if ft == "" then
+					vim.notify("当前缓冲区没有 filetype，无法自动匹配构建模板", vim.log.levels.WARN)
 					return
 				end
 
 				-- 只在文件有修改时保存
 				vim.cmd("silent update")
 
-				-- 直接按模板名运行，比 tags/search_params 更稳定
-				require("overseer").run_template({
-					name = "Fortran: build current file",
-				})
+				local overseer = require("overseer")
+
+				overseer.run_task({
+					tags = { overseer.TAG.BUILD },
+					first = true,
+					search_params = {
+						filetype = ft,
+						dir = vim.fn.expand("%:p:h"),
+					},
+				}, function(task, err)
+					if err then
+						vim.notify("构建任务启动失败: " .. err, vim.log.levels.ERROR)
+						return
+					end
+
+					if not task then
+						vim.notify(
+							string.format("没有找到适用于 filetype=%s 的 BUILD 模板", ft),
+							vim.log.levels.WARN
+						)
+					end
+				end)
 			end,
-			desc = "构建当前 Fortran 文件",
+			desc = "构建当前文件",
 		},
 	},
 
