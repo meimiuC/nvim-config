@@ -32,9 +32,11 @@ return {
 
 		-- 聊天窗口的 UI 行为
 		window = {
-			layout = "float", -- 以浮动窗口形式居中弹出
-			width = 0.8, -- 占据屏幕 80% 宽度
-			height = 0.8, -- 占据屏幕 80% 高度
+			layout = "horizontal", -- 以浮动窗口形式居中弹出
+			-- width = 0.8, -- 占据屏幕 80% 宽度
+			-- width = 1, -- 占据屏幕 80% 宽度
+			-- height = 0.8, -- 占据屏幕 80% 高度
+			height = 0.3, -- 占据屏幕 80% 高度
 			border = "rounded", -- 圆角边框，与主题保持统一
 		},
 	},
@@ -59,20 +61,10 @@ return {
 	-- 这里我们使用 <leader>a 作为 "AI" 的专属前缀
 	keys = {
 		{ "<leader>ac", "<cmd>CopilotChatToggle<cr>", desc = "切换聊天窗口", mode = { "n", "v" } },
-		{ "<leader>ae", "<cmd>CopilotChatExplain<cr>", desc = "AI 解释代码", mode = { "n", "v" } },
-		{ "<leader>ar", "<cmd>CopilotChatReview<cr>", desc = "AI 审查代码", mode = { "n", "v" } },
-		{ "<leader>ao", "<cmd>CopilotChatOptimize<cr>", desc = "AI 优化代码", mode = { "n", "v" } },
-		{ "<leader>ad", "<cmd>CopilotChatDocs<cr>", desc = "AI 生成注释", mode = { "n", "v" } },
-
-		-- 极其强大的 Telescope 集成：弹出一个模糊查找面板，让你选择要让 AI 执行什么动作
-		{
-			"<leader>ap",
-			function()
-				local actions = require("CopilotChat.actions")
-				require("CopilotChat.integrations.telescope").pick(actions.prompt_actions())
-			end,
-			desc = "AI 动作面板 (Telescope)",
-			mode = { "n", "v" },
-		},
+		-- { "<leader>ae", "<cmd>CopilotChatExplain<cr>", desc = "AI 解释代码", mode = { "n", "v" } },
+		-- { "<leader>ar", "<cmd>CopilotChatReview<cr>", desc = "AI 审查代码", mode = { "n", "v" } },
+		-- { "<leader>ao", "<cmd>CopilotChatOptimize<cr>", desc = "AI 优化代码", mode = { "n", "v" } },
+		-- { "<leader>ad", "<cmd>CopilotChatDocs<cr>", desc = "AI 生成注释", mode = { "n", "v" } },
+		--
 	},
 }

@@ -33,8 +33,8 @@ return {
 			},
 			-- 文件类型过滤：在哪些文件中禁用 Copilot
 			filetypes = {
-				yaml = false,
-				markdown = false,
+				-- yaml = false,
+				-- markdown = false,
 				help = false,
 				gitcommit = false,
 				gitrebase = false,
@@ -46,4 +46,13 @@ return {
 			},
 		})
 	end,
+	keys = {
+		{
+			"<leader>as",
+			function()
+				require("copilot.suggestion").toggle_auto_trigger()
+			end,
+			desc = "切换 Copilot 自动建议",
+		},
+	},
 }

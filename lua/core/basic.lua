@@ -21,6 +21,9 @@ vim.opt.smartindent = true
 -- LSP config
 vim.opt.signcolumn = "yes"
 
+-- Make split window default to below
+vim.opt.splitbelow = true
+
 -- 其他
 vim.opt.autoread = true
 
@@ -29,4 +32,3 @@ vim.opt.mouse = "a"
 
 -- Clipboard
 vim.opt.clipboard = "unnamedplus"
-

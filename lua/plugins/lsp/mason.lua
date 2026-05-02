@@ -2,10 +2,11 @@
 
 -- 你要启用 / 安装的 LSP “配置名”
 -- 注意：这里写的是 nvim-lspconfig 里的名字，不是 Mason 包名
-local servers = { "lua_ls", "clangd", "pyright", "marksman", "fortls" }
+local servers = { "lua_ls", "clangd", "pyright", "marksman", "fortls", "jsonls" }
 
 -- 你要通过 Mason 自动安装的“通用工具”
 -- 这里主要放 formatter；这些名字写 Mason 包名
+-- local tools = { "clang-format", "stylua", "black", "emacs-lisp-language-server" }
 local tools = { "clang-format", "stylua", "black" }
 
 return {
@@ -80,6 +81,20 @@ return {
 				},
 			})
 
+			-- 单独配置 jsonls
+			vim.lsp.config("jsonls", {
+				settings = {
+					json = {
+						schemas = require("schemastore").json.schemas(),
+						validate = { enable = true },
+					},
+				},
+			})
+
+			-- vim.lsp.config("els_lsp", {
+			-- 	cmd = { "emacs-lisp-language-server" },
+			-- 	filetypes = { "elisp" },
+			-- })
 			-- LSP attach 到当前 buffer 时，再设置 buffer-local 按键
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("my_lsp_attach", { clear = true }),
@@ -128,6 +143,9 @@ return {
 			for _, server in ipairs(servers) do
 				vim.lsp.enable(server)
 			end
+
+			-- -- 额外启用 els_lsp
+			-- vim.lsp.enable("els_lsp")
 		end,
 	},
 }
