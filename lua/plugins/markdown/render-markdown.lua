@@ -163,11 +163,11 @@ return {
 		-- 代码块（Fenced Code Block）渲染
 		-- ================================================================
 		code = {
-			-- enabled = true,
-			-- language = true,
-			-- -- language_icon = true,
+			enabled = true,
+			language = true,
+			-- language_icon = true,
 			-- language_name = true,
-			-- language_info = true,
+			language_info = true,
 			-- width：代码块背景的宽度模式
 			--   "block"  : 背景宽度仅覆盖代码内容本身（更精致）
 			--   "full"   : 背景延伸至整个窗口宽度（更醒目）
@@ -175,7 +175,7 @@ return {
 
 			-- min_width：代码块背景的最小宽度（字符数）
 			-- 即使代码很短，背景也至少有 80 列宽，避免看起来太窄
-			min_width = 80,
+			min_width = 50,
 
 			-- border：代码块的边框样式
 			--   "thin"  : 细线边框（─ │ 等单线字符）
