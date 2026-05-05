@@ -16,19 +16,22 @@
 -- 新增分类目录时，只需在此处追加一行 { import = "plugins.<目录名>" } 即可。
 
 return {
-    -- 主题 / 外观基础（含 lazy=false 插件，需尽早注册）
-    { import = "plugins.ui" },
+	-- 主题 / 外观基础（含 lazy=false 插件，需尽早注册）
+	{ import = "plugins.ui" },
 
-    -- LSP、补全、格式化等编程核心能力
-    { import = "plugins.lsp" },
-    { import = "plugins.coding" },
+	-- LSP、补全、格式化等编程核心能力
+	{ import = "plugins.lsp" },
+	{ import = "plugins.coding" },
 
-    -- 编辑器增强：模糊搜索、语法树、快捷键提示等
-    { import = "plugins.editor_enforcing" },
+	-- 编辑器增强：模糊搜索、语法树、快捷键提示等
+	{ import = "plugins.editor_enforcing" },
 
-    -- Markdown 预览与渲染（按文件类型懒加载，不影响启动）
-    { import = "plugins.markdown" },
+	-- Markdown 预览与渲染（按文件类型懒加载，不影响启动）
+	{ import = "plugins.markdown" },
 
-    -- AI 辅助编程（Copilot 系列）
-    { import = "plugins.vibe_coding" },
+	-- AI 辅助编程（Copilot 系列）
+	{ import = "plugins.vibe_coding" },
+
+	-- LaTex
+	{ import = "plugins.latex" },
 }

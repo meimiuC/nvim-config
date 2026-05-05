@@ -6,7 +6,7 @@
 -- vim.g.mapleader 将全局 Leader 键设置为空格
 vim.g.mapleader = " "
 -- vim.g.maplocalleader 设置“本地 Leader 键”，是给某些局部场景预留的 leader
-vim.g.maplocalleader = " "
+vim.g.maplocalleader = ","
 
 -- 1. 加载基础设置 (选项)
 require("core.basic")
