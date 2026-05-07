@@ -2,8 +2,9 @@
 
 -- 你要启用 / 安装的 LSP “配置名”
 -- 注意：这里写的是 nvim-lspconfig 里的名字，不是 Mason 包名
-local servers = { "lua_ls", "clangd", "pyright", "marksman", "fortls", "jsonls" }
+local servers = { "lua_ls", "clangd", "pyright", "marksman", "fortls", "jsonls", "texlab" }
 
+local mason_servers = { "lua_ls", "clangd", "pyright", "marksman", "fortls", "jsonls" }
 -- 你要通过 Mason 自动安装的“通用工具”
 -- 这里主要放 formatter；这些名字写 Mason 包名
 -- local tools = { "clang-format", "stylua", "black", "emacs-lisp-language-server" }
@@ -22,7 +23,7 @@ return {
 		"mason-org/mason-lspconfig.nvim",
 		lazy = false,
 		opts = {
-			ensure_installed = servers,
+			ensure_installed = mason_servers,
 			automatic_enable = false,
 		},
 		dependencies = {
@@ -87,6 +88,58 @@ return {
 					json = {
 						schemas = require("schemastore").json.schemas(),
 						validate = { enable = true },
+					},
+				},
+			})
+
+			-- 单独配置 texlab
+			-- 只让 TexLab 负责 LSP：补全、跳转、诊断、hover
+			-- 编译、查看 PDF、清理仍然交给 VimTeX
+			vim.lsp.config("texlab", {
+				cmd = { "texlab" },
+				filetypes = { "tex", "plaintex", "bib" },
+				settings = {
+					texlab = {
+						build = {
+							executable = "latexmk",
+
+							-- 注意：虽然这里写了 -xelatex，但 onSave=false，
+							-- 所以 TexLab 不会自动编译；这里只是为了以后手动触发 build 时不走 pdflatex。
+							args = {
+								"-xelatex",
+								"-interaction=nonstopmode",
+								"-synctex=1",
+								"-file-line-error",
+								"%f",
+							},
+
+							onSave = false,
+							forwardSearchAfter = false,
+						},
+
+						forwardSearch = {
+							executable = "zathura",
+							args = {
+								"--synctex-forward",
+								"%l:1:%f",
+								"%p",
+							},
+						},
+
+						chktex = {
+							onOpenAndSave = false,
+							onEdit = false,
+						},
+
+						diagnosticsDelay = 300,
+
+						-- TexLab 的 LaTeX formatter 默认就是 latexindent；
+						-- 这里显式写出来，便于以后排查。
+						latexFormatter = "latexindent",
+
+						latexindent = {
+							modifyLineBreaks = false,
+						},
 					},
 				},
 			})

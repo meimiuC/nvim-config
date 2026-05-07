@@ -7,6 +7,15 @@ return {
 
 			vim.g.vimtex_compiler_method = "latexmk"
 
+			-- 设置默认 LaTeX 引擎为 XeLaTeX
+			-- 注意：引擎参数不要放进 vimtex_compiler_latexmk.options
+			vim.g.vimtex_compiler_latexmk_engines = {
+				_ = "-xelatex",
+				pdflatex = "-pdf",
+				lualatex = "-lualatex",
+				xelatex = "-xelatex",
+			}
+
 			vim.g.vimtex_compiler_latexmk = {
 				aux_dir = "",
 				out_dir = "",
@@ -14,7 +23,6 @@ return {
 				continuous = 1,
 				executable = "latexmk",
 				options = {
-					"-xelatex",
 					"-interaction=nonstopmode",
 					"-synctex=1",
 					"-file-line-error",
